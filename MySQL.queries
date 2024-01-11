@@ -32,3 +32,15 @@ VALUES
 ('Consider the Lobster', 'David', 'Foster Wallace', 2005, 92, 343);
 
 SELECT * FROM BOOKS;
+
+select concat(author_fname,' ',author_lname) as 'full name'
+from books;
+
+select substring("Where I'm Calling From: Selected Stories",1,22);
+
+select substring(title,1,10) as short_title from books;
+
+select concat
+(substring(title,1,22),
+'...') as short_title
+from books;
