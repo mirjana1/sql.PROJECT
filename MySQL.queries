@@ -40,6 +40,10 @@ select substring("Where I'm Calling From: Selected Stories",1,22);
 
 select substring(title,1,10) as short_title from books;
 
+elect upper (title) from books;
+
+select concat('my favorite book is the  ' ,upper(title)) from books;
+
 select concat
 (substring(title,1,22),
 '...') as short_title
@@ -63,3 +67,53 @@ select title, char_length(title) from books;
 select concat
 (substring(title, 2, 10),'...')  as 'short title'
 from books;
+
+insert into books (title, author_fname, author_lname, released_year, stock_quantity, pages) values ('10% happier', 'dan', 'harris', 2014 , 29, 256),
+('fake book', 'freida', 'harris', 2001, 287, 428),
+('lincoln in the bardo', 'george', 'saunders', 2017, 1000, 367);
+
+
+select distinct author_lname from books;
+
+select distinct(concat(author_fname , ' ',  author_lname)) as 'distinct full name' from books;
+
+select author_lname from books
+order by author_lname;
+
+select title, author_lname, pages from books
+order by author_lname desc;
+
+select  title, author_lname, pages from books
+order by 2 desc;
+
+select * from books limit 
+ 2;
+ 
+ select title, author_fname, released_year from books 
+ order by 1 desc 
+ limit 5;
+ 
+ select title, author_fname, released_year from books 
+ order by 1 desc 
+ limit 2, 5;
+ 
+ select * from books;
+ 
+ select title, author_fname from books where author_fname like '%D%';
+ 
+ select stock_quantity from books where stock_quantity like '__';
+ 
+ select title from books where title like '%/_%';
+ 
+ select title from books where title like '%stories%';
+ 
+ select title, pages from books order by pages desc
+ limit 0,3;
+ 
+ select concat(title, '-', released_year) from books order by released_year desc
+ limit 3;
+ 
+ select concat('my favorite author is', ' ' , upper(author_fname), ' ', upper(author_lname)) 
+ as yell from books 
+ order by author_fname
+ limit 6,5;
