@@ -44,3 +44,22 @@ select concat
 (substring(title,1,22),
 '...') as short_title
 from books;
+
+-- 1 practice
+
+select reverse(upper('why does my cat look at me with such hatred?'));
+
+select replace(concat('I', ' ', 'like', ' ', 'cats'), ' ', '-');
+
+select replace( title, ' ', '<-'   ) from books;
+
+select 
+upper( concat(author_fname, ' ', author_lname)) as ' full name in caps' from books;
+
+select concat(title, ' was released in ' , released_year ) as 'short description' from books;
+
+select title, char_length(title) from books;
+
+select concat
+(substring(title, 2, 10),'...')  as 'short title'
+from books;
