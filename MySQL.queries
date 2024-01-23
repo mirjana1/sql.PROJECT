@@ -117,3 +117,46 @@ select * from books limit
  as yell from books 
  order by author_fname
  limit 6,5;
+
+select count(*) from books;
+ 
+ select count(distinct author_fname) from books;
+ 
+ select count(distinct author_lname, author_fname) from books;
+ 
+ select title from books where title like '%the%';
+ select count(*) from books where title like '%the%';
+ 
+ select author_lname, author_fname, count(*)
+ from books group by author_lname, author_fname;
+ 
+ select title, released_year, count(*) from books
+ group by released_year, title ;
+ 
+ select concat( 'in', ' ', released_year , ' ' , count(*) , ' book(s) ', 'released') 
+ as year from books 
+ group by released_year;
+ 
+ select min(pages) from books;
+ select max(pages), title from books;
+
+select title, pages from books 
+where pages = (select max(pages) from books);
+
+select title, pages from books
+ where pages= (select min(pages)from books);
+ 
+ select title, pages from books order by pages asc limit 1;
+ select title, pages from books order by pages desc limit 1;
+ 
+ select author_fname, author_lname, min(released_year)
+ from books
+ group by author_fname, author_lname;
+ 
+ select author_fname,author_lname, max(pages)
+ from books
+ group by author_fname,author_lname;
+ 
+ select concat(author_fname, ' ' , author_lname) as 'full name', max(pages) as ' longest book '
+ from books
+ group by author_fname, author_lname;
