@@ -1,0 +1,5 @@
+select title, released_year from books where released_year != 2017;
+
+select title,	author_lname from books where author_lname = 'harris';
+
+select title from books where title NOT like '%W%';
