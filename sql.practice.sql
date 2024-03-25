@@ -78,5 +78,59 @@ concat (author_fname, ' ', author_lname) as ' full name'
 from books
 where author_lname in ('eggers', 'chabon');
 
+----------------------------
+CREATE TABLE knjige (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    naslov VARCHAR(255),
+    autor VARCHAR(255),
+    godina_izdanja YEAR,
+    datum_dodavanja DATETIME,
+    broj_stranica INT
+);
+INSERT INTO knjige (naslov, autor, godina_izdanja, datum_dodavanja, broj_stranica) VALUES
+('Gospodar prstenova', 'J.R.R. Tolkien', 1954, NOW(), 1216),
+('1984', 'George Orwell', 1949, '2024-03-24 10:00:00', 328),
+('Mali princ', 'Antoine de Saint-Exupéry', 1943, '2024-03-23 12:30:00', 96),
+('Harry Potter i Kamen mudraca', 'J.K. Rowling', 1997, '2024-03-24 11:15:00', 223),
+('Da Vincijev kod', 'Dan Brown', 2003, '2024-03-24 09:45:00', 689);
+
+-- Izračunajte koliko dana je prošlo
+ -- od datuma dodavanja svake knjige do danas 
+ 
+ select * from knjige;
+ 
+ select 
+	naslov, 
+    date_format(datum_dodavanja, '%W %M %Y') 
+ as datum_dodavanja,
+ datediff(now(), datum_dodavanja) as vrijeme_od_dodavanja from knjige;
+ 
+--  Dodajte 15 dana na datum dodavanja svake knjige i prikažite novi datum
+
+SELECT naslov, 
+       datum_dodavanja,
+       DATE_ADD(datum_dodavanja, INTERVAL 15 DAY) AS novi_datum_dodavanja
+FROM knjige;
+
+-- Prikazivanje dana u tjednu na kojeg je dodana svaka knjiga.
+
+select naslov, dayofweek(datum_dodavanja) as dan_u_tjednu from knjige;
+select naslov, dayname(datum_dodavanja) as dan_u_tjednu from knjige;
+
+--  Izračunajte razliku u vremenu između 
+-- trenutka dodavanja knjige i trenutnog vremena u satima.
+
+SELECT naslov, 
+       datum_dodavanja, 
+       TIMESTAMPDIFF(HOUR, datum_dodavanja, NOW()) AS razlika_u_satima
+FROM knjige;
+
+
+-- Razlika u Satima za Knjige Dodane u Posljednjih 7 Dana
+select * from books;
+select naslov, timestampdiff(hour, datum_dodavanja, now()) as razlika_u_satima
+from knjige
+where datum_dodavanja>=current_date()- interval 7 day;
+
 
 
