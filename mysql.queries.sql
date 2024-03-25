@@ -160,3 +160,12 @@ select title, pages from books
  select concat(author_fname, ' ' , author_lname) as 'full name', max(pages) as ' longest book '
  from books
  group by author_fname, author_lname;
+
+
+select title, author_lname, 
+case 
+when title like "%stories%" then "short stories"
+when title like "%just kids%" OR title like "a heartbreaking work%" then "memoir"
+else "novel"
+end as type 
+FROM BOOKS;	
