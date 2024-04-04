@@ -1,0 +1,98 @@
+create database join_vjezba;
+use join_vjezba;
+
+CREATE TABLE autori (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ime VARCHAR(50),
+    prezime VARCHAR(50)
+);
+
+
+CREATE TABLE knjige (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    naziv VARCHAR(100),
+    autor_id INT,
+    FOREIGN KEY (autor_id) REFERENCES autori(id)
+);
+
+INSERT INTO autori (ime, prezime) VALUES ('Ivo', 'Andrić');
+INSERT INTO autori (ime, prezime) VALUES ('Mesa', 'Selimović');
+INSERT INTO autori (ime, prezime) VALUES ('J.K.', 'Rowling');
+
+INSERT INTO knjige (naziv, autor_id) VALUES ('Na Drini ćuprija', 1);
+INSERT INTO knjige (naziv, autor_id) VALUES ('Derviš i smrt', 2);
+INSERT INTO knjige (naziv, autor_id) VALUES ('Harry Potter', 3);
+INSERT INTO knjige (naziv, autor_id) VALUES ('Znakovi pored puta', 1);
+
+
+-- Koristimo INNER JOIN kada želimo dobiti samo one redove 
+-- koji imaju podudaranje u obadvije tablice. 
+-- Ako knjiga nema autora u tablici autori, ona se neće pojaviti u konačnom rezultatu. 
+-- Ovo je korisno kada želimo osigurati da se u rezultatima prikažu samo potpuni setovi podataka
+--  koji zadovoljavaju uvjet spajanja.
+
+
+select distinct(k.naziv),a.ime,a.prezime
+from knjige as k
+inner join autori as a
+on a.id=k.autor_id;
+
+INSERT INTO autori (ime, prezime) VALUES ('Marko', 'Marković');
+INSERT INTO autori (ime, prezime) VALUES ('Jelena', 'Jelenić');
+INSERT INTO autori (ime, prezime) VALUES ('Ivana', 'Ivanić');
+-- Autor bez knjiga
+INSERT INTO autori (ime, prezime) VALUES ('Petar', 'Petrović');
+-- Knjige postojećih autora
+INSERT INTO knjige (naziv, autor_id) VALUES ('Putovanje u središte Zemlje', 1);
+INSERT INTO knjige (naziv, autor_id) VALUES ('Tajne povijesti', 2);
+-- Knjiga bez jasno definiranog autora (NULL)
+INSERT INTO knjige (naziv, autor_id) VALUES ('Misterij svemira', NULL);
+-- Dodatna knjiga za autora 1
+INSERT INTO knjige (naziv, autor_id) VALUES ('Pustolovine Sherlocka Holmesa', 1);
+
+
+
+select distinct(k.naziv),a.ime,a.prezime
+from knjige as k
+left join autori as a
+on a.id=k.autor_id;
+
+
+SELECT * FROM KNJIGE;
+SELECT * FROM AUTORI;
+
+select * 
+from autori as a 
+left join knjige as k
+on a.id=k.autor_id;
+
+
+SELECT a.ime, a.prezime, k.naziv AS NazivKnjige
+FROM autori AS a 
+right JOIN knjige AS k
+ON a.id = k.autor_id;
+
+-- Napišite SQL upit koji će prikazati popis svih knjiga zajedno s imenom i prezimenom autora koji su ih napisali. 
+-- Uključite samo knjige koje imaju jasno identificiranog autora u bazi.
+
+select a.ime,a.prezime,k.naziv from autori as a
+inner join knjige as k 
+on k.autor_id=a.id;
+
+-- Izradite upit koji će izlistati sve autore, uključujući i one koji nisu objavili nijednu knjigu. 
+-- Za autore koji nemaju objavljene knjige, informacija o knjigama treba biti prikazana kao nedostupna ili NULL.
+
+select a.ime,a.prezime,k.naziv from autori as a
+left join knjige as k  on k.autor_id=a.id;
+
+-- Sastavite upit koji prikazuje sve knjige, uključujući i one koje su izdane bez povezanog autora u bazi podataka. 
+-- Gdje je moguće, trebali biste uključiti informacije o autorima tih knjiga.
+
+select  k.naziv, a.ime, a.prezime
+from knjige as k
+left join autori as a on k.autor_id=a.id;
+
+
+select k.naziv as "naziv knjige", coalesce(a.ime,"nepoznato") as ime, coalesce(A.PREZIME, "NEPOZNATO")as prezime
+from knjige as k
+left join autori as a on k.autor_id=a.id;
